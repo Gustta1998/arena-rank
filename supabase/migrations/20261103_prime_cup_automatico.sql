@@ -3,6 +3,25 @@
 -- Instalar apenas após revisão e backup. NÃO EXCLUI DADOS HISTÓRICOS.
 BEGIN;
 CREATE SCHEMA IF NOT EXISTS private;
+CREATE TABLE IF NOT EXISTS private.arena_automatic_events (
+ event_id uuid PRIMARY KEY REFERENCES public.arena_draw_events(id) ON DELETE CASCADE,
+ enrolled_at timestamptz NOT NULL DEFAULT clock_timestamp()
+);
+REVOKE ALL ON private.arena_automatic_events FROM PUBLIC, anon, authenticated;
+CREATE OR REPLACE FUNCTION public.arena_enable_automatic_event(p_event_id uuid)
+RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path = ''
+AS $enroll$
+BEGIN
+ IF private.arena_is_admin() IS DISTINCT FROM true THEN RAISE EXCEPTION 'Admin required'; END IF;
+ IF NOT EXISTS (SELECT 1 FROM public.arena_draw_events WHERE id=p_event_id AND status='scheduled' AND started_at IS NULL) THEN
+   RAISE EXCEPTION 'Only new scheduled events can opt in';
+ END IF;
+ INSERT INTO private.arena_automatic_events(event_id) VALUES(p_event_id) ON CONFLICT DO NOTHING;
+ RETURN true;
+END;
+$enroll$;
+REVOKE ALL ON FUNCTION public.arena_enable_automatic_event(uuid) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.arena_enable_automatic_event(uuid) TO authenticated;
 
 CREATE OR REPLACE FUNCTION private.arena_advance_live_events()
 RETURNS void
@@ -22,6 +41,7 @@ BEGIN
     SELECT e.id, e.started_at, s.phase, s.phase_started_at, s.current_reveal_order
     FROM public.arena_draw_events e
     JOIN public.arena_draw_live_state s ON s.event_id=e.id
+    JOIN private.arena_automatic_events a ON a.event_id=e.id
     WHERE e.status='live'
     ORDER BY e.created_at
     FOR UPDATE OF e, s SKIP LOCKED
@@ -143,7 +163,7 @@ BEGIN
     SELECT 1 FROM cron.job
     WHERE jobname='prime-cup-auto-advance-v1' AND active
   ) INTO active_job;
-  RETURN COALESCE(active_job,false);
+  RETURN COALESCE(active_job,false) AND EXISTS (SELECT 1 FROM pg_extension WHERE extname='pg_cron');
 EXCEPTION WHEN undefined_table OR insufficient_privilege THEN
   RETURN false;
 END;
@@ -153,10 +173,6 @@ GRANT EXECUTE ON FUNCTION public.arena_automation_status() TO authenticated;
 
 COMMIT;
 
--- Ativa o agendamento de 1 segundo. Execute este bloco apenas UMA vez,
--- após confirmar que a extensão pg_cron está habilitada no Supabase.
-SELECT cron.schedule(
- 'prime-cup-auto-advance-v1',
- '1 second',
- $$SELECT private.arena_advance_live_events();$$
-);
+-- Cron registration is managed separately after installing pg_cron.
+-- SELECT cron.schedule('prime-cup-auto-advance-v1','1 second',
+--   $$SELECT private.arena_advance_live_events();$$);
