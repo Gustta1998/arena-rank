@@ -134,6 +134,23 @@ $function$;
 REVOKE ALL ON FUNCTION private.arena_advance_live_events()
 FROM PUBLIC, anon, authenticated;
 
+CREATE OR REPLACE FUNCTION public.arena_automation_status()
+RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path = ''
+AS $status$
+DECLARE active_job boolean;
+BEGIN
+  SELECT EXISTS (
+    SELECT 1 FROM cron.job
+    WHERE jobname='prime-cup-auto-advance-v1' AND active
+  ) INTO active_job;
+  RETURN COALESCE(active_job,false);
+EXCEPTION WHEN undefined_table OR insufficient_privilege THEN
+  RETURN false;
+END;
+$status$;
+REVOKE ALL ON FUNCTION public.arena_automation_status() FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.arena_automation_status() TO authenticated;
+
 COMMIT;
 
 -- Ativa o agendamento de 1 segundo. Execute este bloco apenas UMA vez,
