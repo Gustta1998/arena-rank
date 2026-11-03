@@ -1,0 +1,58 @@
+name: Verify Prime Cup integration
+on:
+  push:
+    branches: [feature/prime-cup-integracao]
+    paths:
+      - 'index.html'
+      - 'prime-cup/**'
+      - '.github/workflows/prime-cup-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check scripts and all local media
+        run: |
+          python3 - <<'PY'
+          import pathlib, re, html.parser, subprocess
+          root=pathlib.Path('prime-cup')
+          site=pathlib.Path('index.html').read_text()
+          assert 'data-tab="primecup"' in site, 'Prime Cup navigation missing'
+          assert 'prime-cup/index.html?evento=' in site, 'Embedded viewer missing'
+          for f in ['index.html','admin.html','abertura.mp4','encerramento.mp4','trilha.mp3','prime-cup.png']:
+              assert (root/f).is_file(), f
+          s=(root/'index.html').read_text()
+          m=re.search(r'const availableLogoSlugs = new Set\((\[[^;]+?\])\)',s)
+          assert m, 'Missing official crest index'
+          import ast
+          crests=ast.literal_eval(m.group(1))
+          missing=[c for c in crests if not (root/'escudos'/f'{c}.png').is_file()]
+          assert not missing, 'Missing crests '+str(missing[:10])
+          class Scripts(html.parser.HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.inside=False
+                  self.parts=[]
+                  self.scripts=[]
+              def handle_starttag(self,tag,attrs):
+                  if tag=='script':
+                      self.inside=not any(k=='src' for k,v in attrs)
+                      self.parts=[]
+              def handle_data(self,data):
+                  if self.inside:self.parts.append(data)
+              def handle_endtag(self,tag):
+                  if tag=='script' and self.inside:
+                      self.scripts.append(''.join(self.parts))
+                      self.inside=False
+          for f in ['index.html','prime-cup/index.html','prime-cup/admin.html']:
+              parser=Scripts()
+              parser.feed(pathlib.Path(f).read_text())
+              for i,script in enumerate(parser.scripts):
+                  p=pathlib.Path(f'/tmp/prime_script_{i}.js')
+                  p.write_text(script)
+                  subprocess.run(['node','--check',str(p)],check=True)
+          print('PASS: Prime Cup UI, media,',len(crests),'crests, JavaScript syntax')
+          PY
