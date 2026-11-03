@@ -57,8 +57,6 @@ jobs:
           if errs:
               print('\n'.join(errs[:30]))
               raise SystemExit('Missing assets; repository unchanged')
-          import subprocess
-          subprocess.run(['ffmpeg','-y','-ss','3','-i',str(root/'encerramento.mp4'),'-frames:v','1',str(root/'encerramento-capa.jpg')],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
           PY
       - name: Commit assets to integration branch only
         run: |
