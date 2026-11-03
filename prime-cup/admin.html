@@ -1,9 +1,9 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Prime Cup | Admin — Integração de teste</title><style>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Prime Cup | Painel Admin</title><style>
 :root{color-scheme:dark}*{box-sizing:border-box}body{background:#080b16;color:#f8ecd4;font-family:system-ui,Segoe UI,Arial,sans-serif;margin:0}main{max-width:920px;margin:auto;padding:20px}h1{color:#f5d080}h2{font-size:1.14rem;color:#f5d080;margin:0 0 12px}.note{background:#262015;border:1px solid #806536;padding:13px;border-radius:10px;color:#ffe0a1}.card{background:#141a2c;border:1px solid #67502e;border-radius:14px;padding:18px;margin:15px 0}label{display:block;margin:10px 0 5px;color:#e6c780;font-size:.9rem}input,textarea{width:100%;background:#070a13;color:#fff;border:1px solid #795d32;border-radius:7px;padding:12px;font:inherit}textarea{min-height:90px}button{background:#e5bc71;color:#241707;border:0;border-radius:9px;padding:12px 16px;font-weight:800;margin:9px 5px 2px 0;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}.subtle{background:#272c3a;color:#f4dbaf;border:1px solid #70562d}small,p{line-height:1.5}.subtletext{color:#b5b5b5}#eventLink{overflow-wrap:anywhere;color:#f8db9a}#log{white-space:pre-wrap;overflow-wrap:anywhere;background:#060912;padding:14px;border-radius:8px;min-height:130px;max-height:310px;overflow:auto;font-size:12px;color:#bbe8c0}#status{font-weight:750;color:#f5d080}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:680px){.two{grid-template-columns:1fr}}a{color:#efca78}
 </style></head><body><main><h1>🏆 PRIME CUP — ADMIN (ENSAIO INTEGRADO)</h1><div class="note"><b>TESTE DE INTEGRAÇÃO, NÃO É O TORNEIO OFICIAL.</b> Esta página cria um evento fictício público de teste com os nomes que você digitar. Não use nomes reais neste teste. Não publique esta página de Admin no Netlify. Deixe-a aberta no seu computador durante a apresentação. Nunca compartilhe sua senha.</div>
 <section class="card"><h2>1. Entrar no Supabase como Admin</h2><p class="subtletext">A URL e a chave pública já estão configuradas. Sua senha vai diretamente ao Supabase Auth.</p><label>E-mail do seu usuário Admin (Supabase Auth)</label><input id="email" type="email" autocomplete="username" placeholder="seu@email.com"><label>Senha</label><input id="password" type="password" autocomplete="current-password"><button id="login">Entrar</button> <span id="authstate" class="subtletext">Desconectado</span></section>
-<section class="card"><h2>2. Criar evento FICTÍCIO para assistir em outro celular</h2><div class="two"><div><label>Jogadores (um nome por linha)</label><textarea id="players">Jogador Teste A\nJogador Teste B\nJogador Teste C</textarea></div><div><label>Times (um por linha; mais times que jogadores)</label><textarea id="teams">Real Madrid\nBarcelona\nArsenal\nBayern München\nMilan\nLiverpool</textarea></div></div><button id="create" disabled>Criar evento de teste</button><p id="eventinfo" class="subtletext">Nenhum evento criado.</p><p><a id="eventLink" href="index.html" target="_blank" rel="noopener">Abrir tela do espectador (mesma pasta)</a></p><label>Opcional: endereço público do espectador no Netlify</label><input id="publicSiteUrl" type="url" placeholder="https://seu-site.netlify.app"><p class="subtletext">Se preencher, o botão de copiar usará o link público para celular. Se deixar em branco, abrirá o index.html desta pasta no computador.</p><button class="subtle" id="copyLink" disabled>Copiar link do espectador</button><p class="subtletext">Em Netlify, publique somente a pasta do espectador em um endereço de teste. Guarde o painel Admin localmente. O link local abre no mesmo computador; para celular é necessário hospedar o espectador.</p></section>
-<section class="card"><h2>3. Comandar o teste completo</h2><p id="status">Aguardando evento.</p><button id="start" disabled>▶ INICIAR TESTE</button><button id="stop" class="subtle" disabled>Parar antes da próxima etapa</button><p class="subtletext">Abertura 15s → vídeo 71,4s → Prime Cup 8s → envelopes (10s cada) → tabela → vídeo final 8s → resultados oficiais. A música é sincronizada pela tela do espectador após autorização do navegador.</p><p id="results"></p></section>
+<section class="card"><h2>2. Criar evento da Prime Cup</h2><div class="two"><div><label>Jogadores (um nome por linha)</label><textarea id="players">Jogador Teste A\nJogador Teste B\nJogador Teste C</textarea></div><div><label>Times (um por linha; mais times que jogadores)</label><textarea id="teams">Real Madrid\nBarcelona\nArsenal\nBayern München\nMilan\nLiverpool</textarea></div></div><label style="display:flex;align-items:center;gap:9px"><input id="officialEvent" type="checkbox" style="width:auto">Este é o sorteio OFICIAL (não um ensaio)</label><button id="create" disabled>Criar evento Prime Cup</button><p id="eventinfo" class="subtletext">Nenhum evento criado.</p><p><a id="eventLink" href="index.html" target="_blank" rel="noopener">Abrir tela do espectador (mesma pasta)</a></p><label>Opcional: endereço alternativo do espectador</label><input id="publicSiteUrl" type="url" placeholder="https://seu-dominio.com/prime-cup/index.html"><p class="subtletext">Se preencher, o botão de copiar usará o link público para celular. Se deixar em branco, abrirá o index.html desta pasta no computador.</p><button class="subtle" id="copyLink" disabled>Copiar link do espectador</button><p class="subtletext">Ao publicar no Arena Rank, deixe esse campo em branco: o link da apresentação será gerado dentro do próprio site.</p></section>
+<section class="card"><h2>3. Iniciar o sorteio</h2><p id="status">Aguardando evento.</p><button id="start" disabled>▶ INICIAR SORTEIO</button><button id="stop" class="subtle" disabled style="display:none">Parar antes da próxima etapa</button><p class="subtletext">Abertura 15s → vídeo 71,4s → Prime Cup 8s → envelopes (10s cada) → tabela → vídeo final 8s → resultados. O banco executa as etapas automaticamente, após a ativação da migração. A música é sincronizada pela tela do espectador após autorização do navegador.</p><p id="results"></p></section>
 <section class="card"><h2>Registro de execução</h2><pre id="log">Pronto. Faça o login para começar.</pre></section>
 </main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script>
 'use strict';
@@ -52,10 +52,12 @@ $('create').onclick=async()=>{try{
  teams=$('teams').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
  if(!participants.length||teams.length<participants.length)throw new Error('Cadastre pelo menos um jogador e ao menos um time por jogador.');
  if(new Set(participants.map(x=>x.toLowerCase())).size!==participants.length||new Set(teams.map(x=>x.toLowerCase())).size!==teams.length)throw new Error('Não repita nomes de jogadores ou times.');
- const title='TESTE PUBLICO PRIME CUP - '+new Date().toISOString();
+ const official=$('officialEvent').checked;
+ if(official&&!confirm('ATENÇÃO: este evento será oficial e visível ao público. Confirma os jogadores e times cadastrados?'))return;
+ const title=official?'Prime Cup':'TESTE PUBLICO PRIME CUP - '+new Date().toISOString();
  const data=check(await sb.from('arena_draw_events').insert({name:title,status:'scheduled',is_rehearsal:false,scheduled_at:new Date(Date.now()+60000).toISOString()}).select('id').single());
- eventId=data.id; $('eventinfo').textContent='Evento FICTÍCIO criado: '+eventId+' (visível publicamente, sem resultados ainda)';
- log('Criado evento de teste '+eventId+'.');
+ eventId=data.id; $('eventinfo').textContent='Evento Prime Cup criado: '+eventId+' (visível publicamente, sem resultados ainda)';
+ log('Criado '+(official?'evento OFICIAL ':'evento de ensaio ')+eventId+'.');
  check(await sb.from('arena_draw_participants').insert(participants.map(player_name=>({event_id:eventId,player_name}))));
  check(await sb.from('arena_draw_teams').insert(teams.map(team_name=>({event_id:eventId,team_name}))));
  check(await sb.from('arena_draw_live_state').insert({event_id:eventId,phase:'waiting',current_reveal_order:0}));
@@ -65,7 +67,7 @@ $('create').onclick=async()=>{try{
 function getViewerLink(){
  const base=$('publicSiteUrl').value.trim();
  let url;
- if(base){url=new URL(base);if(!['https:','http:'].includes(url.protocol))throw new Error('Use um endereço https do Netlify.');}
+ if(base){url=new URL(base);if(!['https:','http:'].includes(url.protocol))throw new Error('Use um endereço HTTP(S) válido.');}
  else{url=new URL('index.html',location.href);}
  url.searchParams.set('evento',eventId);
  return url.href;
@@ -88,27 +90,26 @@ async function suspenseAndReveal(i){
 }
 $('start').onclick=async()=>{
  if(!eventId||running||drawStarted)return;
- running=true;stopRequested=false;buttons();
- try{
-   await rpc('arena_start_draw',{p_event_id:eventId});drawStarted=true;log('Sorteio iniciado no Supabase; resultados secretos gerados.');
-   // Horario do servidor: a referencia oficial do show, inclusive para quem entrar atrasado.
-   const evt=check(await sb.from('arena_draw_events').select('started_at').eq('id',eventId).single());
-   showAnchor=Date.parse(evt.started_at);
-   if(!Number.isFinite(showAnchor))throw new Error('Horario de inicio ausente no Supabase.');
-   if(!await timedPhase('intro',0,15))return;
-   if(!await timedPhase('opening_video',15,71.37))return;
-   if(!await timedPhase('prime_cup',86.37,8))return;
-   for(let i=0;i<participants.length;i++){
-     if(stopRequested)return;
-     if(!await suspenseAndReveal(i))return;
+ running=true;buttons();
+ try {
+   const health=await sb.rpc('arena_automation_status');
+   if(health.error||health.data!==true){
+     throw new Error('Automação do servidor não está ativa no Supabase. É necessário instalar a migração antes de iniciar o sorteio.');
    }
-   if(!await waitPhase('final_table',Math.max(7,participants.length*1.4+3)))return;
-   if(!await waitPhase('closing_video',8))return;
-   await rpc('arena_draw_finish',{p_event_id:eventId});
-   await writePhase('finished',null,participants.length);
-   log('CONCLUÍDO: evento de teste encerrado. Tabela pública disponível.');$('status').textContent='Ensaio finalizado com sucesso.';
- }catch(e){log('ERRO: '+(e.message||e));$('status').textContent='Teste interrompido. Confira o registro. Não reinicie o evento.';}
- finally{running=false;buttons();}
+   if(!confirm('Iniciar agora a Prime Cup? O sorteio é definitivo e não deve ser reiniciado.'))return;
+   await rpc('arena_start_draw',{p_event_id:eventId});
+   drawStarted=true;
+   log('Sorteio iniciado. O Supabase controla automaticamente as etapas e revelações.');
+   $('status').textContent='Sorteio em andamento no servidor. Pode fechar o painel Admin.';
+   // A função private.arena_advance_live_events() executada por pg_cron
+   // promove as fases. Não há temporizadores administrativos locais.
+ }catch(e){
+   log('INICIAR: '+(e.message||e));
+   $('status').textContent='Não foi possível iniciar. Verifique o registro.';
+ }finally{
+   running=false;
+   buttons();
+ }
 };
 buttons();
 </script></body></html>
