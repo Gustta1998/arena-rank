@@ -1,0 +1,387 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Prime Cup — Espectador V13: áudio preparado</title><style>
+:root{color-scheme:dark;--gold:#efce80;--dark:#07080d;--muted:#b2b1b7}*{box-sizing:border-box}body{margin:0;background:#05060b;color:#f6f0e2;font-family:system-ui,-apple-system,Segoe UI,sans-serif}body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 10%,#54401e50,transparent 48%),radial-gradient(ellipse at 50% 95%,#29223655,transparent 60%)}.app{position:relative;max-width:1160px;margin:auto;padding:24px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.brand{font-weight:900;letter-spacing:.18em;color:var(--gold);font-size:clamp(13px,2vw,21px)}.tag{background:#30261b;border:1px solid #71532f;color:#f6d891;padding:9px 12px;border-radius:40px;font-size:12px;letter-spacing:.12em}.stage{margin-top:18px;position:relative;min-height:560px;overflow:hidden;border:1px solid #80613699;border-radius:22px;background:linear-gradient(155deg,#11131f 0%,#07080e 54%,#141018 100%);box-shadow:0 25px 110px #000}.stage:before,.stage:after{content:"";position:absolute;top:-150px;width:250px;height:760px;background:linear-gradient(#ffdf9250,transparent);filter:blur(30px);opacity:.5;transform-origin:top}.stage:before{left:10%;transform:rotate(-24deg)}.stage:after{right:10%;transform:rotate(24deg)}.particles{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(#f5d482 1px,transparent 1px);background-size:44px 53px;opacity:.16;animation:fall 12s linear infinite}@keyframes fall{to{background-position:0 530px}}.stage-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:560px;padding:30px}.small{letter-spacing:.36em;font-size:12px;color:var(--gold)}.title{font-family:Georgia,serif;font-weight:700;font-size:clamp(34px,6vw,66px);line-height:1.08;margin:15px 0;text-shadow:0 0 25px #a1783680}.subtitle{color:#d5bf8e;font-size:clamp(14px,2vw,20px);letter-spacing:.16em}.crest{height:136px;width:136px;border:2px solid #e9bc68;border-radius:50%;display:grid;place-items:center;margin:24px 0;background:radial-gradient(circle,#74582b 0%,#1e1c1d 60%);box-shadow:0 0 70px #d4ad4d4d,inset 0 0 25px #dcb26333;font-size:62px;animation:breath 2s ease-in-out infinite}.crest.reveal{animation:boom .8s ease-out both;box-shadow:0 0 140px #f5d06999,inset 0 0 40px #e8c78055}@keyframes breath{50%{transform:scale(1.06);box-shadow:0 0 90px #e9b14e70}}@keyframes boom{0%{transform:scale(.2);opacity:0}70%{transform:scale(1.2);opacity:1}100%{transform:scale(1)}}.name{font-size:clamp(24px,4.2vw,47px);font-weight:900;letter-spacing:.07em}.team{font-family:Georgia,serif;font-weight:700;color:#f9d889;font-size:clamp(29px,5vw,59px);text-shadow:0 0 30px #d7a43855;animation:slide .65s ease-out}@keyframes slide{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}.counter{font-size:clamp(36px,6vw,72px);font-weight:800;color:#f2d28a;font-variant-numeric:tabular-nums}.rail{height:5px;background:#38322a;border-radius:50px;overflow:hidden;width:min(420px,80%);margin:15px auto}.progress{height:100%;width:0%;background:linear-gradient(90deg,#b17b2f,#ffe6a2);transition:width .15s linear}.controls{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}button{font:inherit;cursor:pointer;border:none;border-radius:12px;padding:13px 18px;font-weight:800;background:linear-gradient(135deg,#f7d98e,#b88a3a);color:#1f160c}button.secondary{background:#20222c;border:1px solid #524934;color:#f1dbb0}button:disabled{opacity:.4;cursor:not-allowed}.note{color:#adabb4;text-align:center;font-size:13px;margin:14px 0}.results{margin-top:19px;border:1px solid #4a3b27;border-radius:17px;padding:18px;background:#11131b}.results h2{margin:0 0 12px;color:var(--gold);font-size:18px}.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px}.result{background:#1c1b20;border:1px solid #463c2d;border-radius:10px;padding:13px}.result span{display:block;color:#b9b1a4;font-size:12px}.result b{display:block;margin-top:3px;color:#f8ddb1}.live-dot{display:inline-block;height:8px;width:8px;border-radius:50%;background:#ff5555;box-shadow:0 0 12px #ff5555;margin-right:6px}.disclaimer{padding:12px;background:#241b15;border:1px solid #83622c;color:#e7cea0;border-radius:10px;text-align:center;font-size:13px;margin-top:14px}@media(max-width:640px){.app{padding:12px}.stage,.stage-inner{min-height:480px}.crest{height:110px;width:110px;font-size:50px}.tag{font-size:10px}.top{justify-content:center}}
+
+/* Envelope cerimonial: fechado durante o suspense, abre ao revelar o time. */
+.envelope-scene{position:relative;width:min(360px,76vw);height:198px;margin:18px auto 12px;perspective:900px;filter:drop-shadow(0 16px 26px #0009);display:none}.envelope-scene.active{display:block;animation:envEntrance .85s cubic-bezier(.18,.9,.28,1) both}.envelope{position:absolute;inset:0;margin:auto;width:min(310px,100%);height:172px;transform-style:preserve-3d}.env-back{position:absolute;inset:0;border:2px solid #e0b35b;border-radius:8px;background:linear-gradient(145deg,#725124,#e5ba6d 47%,#8e652b);box-shadow:inset 0 0 28px #3e240d88,0 0 35px #d59a3550}.env-letter{position:absolute;z-index:2;left:7%;right:7%;top:13%;height:136px;border:2px solid #f7dea1;border-radius:5px;background:linear-gradient(160deg,#fff2d1,#d4b77c);color:#382517;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;padding:14px;transform:translateY(0);transition:transform 1.3s cubic-bezier(.2,.75,.28,1) .55s;overflow:hidden}.env-letter small{font-size:10px;letter-spacing:.15em;color:#6d4b21}.env-letter strong{font-size:clamp(14px,3.2vw,22px);line-height:1.15;font-family:Georgia,serif}.env-front{position:absolute;inset:0;z-index:3;clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);border-radius:8px;background:linear-gradient(145deg,#d7a951,#946627 55%,#c9943d);box-shadow:inset 0 -10px 25px #4f330d66}.env-flap{position:absolute;z-index:5;left:0;right:0;top:0;height:99px;clip-path:polygon(0 0,100% 0,50% 94%);background:linear-gradient(180deg,#f3d089,#a5752a);transform-origin:50% 0;backface-visibility:visible;transition:transform .85s ease;filter:drop-shadow(0 4px 4px #3a240f77)}.env-seal{position:absolute;z-index:6;top:64px;left:calc(50% - 22px);width:44px;height:44px;border-radius:50%;background:radial-gradient(circle,#ffebac,#bd852e 60%,#603b0f);border:2px solid #ffe0a0;display:grid;place-items:center;color:#51300c;box-shadow:0 3px 12px #0008;transition:opacity .2s,transform .45s}.envelope-scene.open .env-flap{transform:rotateX(180deg);z-index:1}.envelope-scene.open .env-seal{opacity:0;transform:scale(.3)}.envelope-scene.open .env-letter{transform:translateY(-69px);z-index:4;box-shadow:0 0 45px #f3d48577}.envelope-scene.open .envelope{animation:revealShine 1.3s ease-out}.envelope-scene.open .env-front{z-index:3}@keyframes envEntrance{from{opacity:0;transform:translateY(45px) scale(.75) rotate(-7deg)}to{opacity:1;transform:none}}@keyframes revealShine{55%{filter:brightness(1.5)}}.env-caption{font-size:12px;color:#e9cb91;letter-spacing:.2em;margin-top:4px;min-height:18px}.reveal-name{animation:slide .8s ease-out}.stage.revealing:after{opacity:.8;filter:blur(45px)}@media(max-width:640px){.envelope-scene{height:185px;margin:20px auto}.env-letter{height:135px}}
+
+/* Abertura oficial de 15 segundos */
+.intro-panel{display:none;max-width:720px;padding:18px;animation:slide .9s ease both}.intro-panel.active{display:block}.intro-panel .intro-kicker{font-size:12px;color:#dfbd6f;letter-spacing:.3em}.intro-panel h2{font-family:Georgia,serif;font-size:clamp(27px,5vw,56px);color:#ffe6a7;margin:18px 0;line-height:1.18;text-shadow:0 0 45px #dcaa5666}.intro-panel p{font-size:clamp(15px,2.2vw,21px);line-height:1.55;color:#f6edd8}.intro-panel .intro-seconds{font-size:14px;color:#ebc87f;margin-top:18px}.intro-panel .intro-caption{font-size:12px;color:#a9a0a0;margin-top:10px}.stage.intro-running #crest,.stage.intro-running #envelope,.stage.intro-running #envCaption,.stage.intro-running #player,.stage.intro-running #team,.stage.intro-running #count,.stage.intro-running #status,.stage.intro-running #subtitle,.stage.intro-running .rail{display:none!important}
+.yt-box{margin:16px auto 0;border:1px solid #645035;background:#13131d;border-radius:16px;padding:14px;max-width:650px}.yt-row{display:flex;gap:15px;align-items:center;justify-content:center;flex-wrap:wrap}.yt-box strong{font-size:14px;color:#efd292}.yt-box p{color:#bcb6a9;font-size:12px;line-height:1.5;margin:5px 0}.yt-box iframe{border:0;border-radius:10px;width:280px;height:158px;max-width:100%}.yt-box a{color:#ead392}.stage.intro-running .stage-inner{background:radial-gradient(circle at 50% 40%,#5a43252f,transparent 60%)}
+
+.video-wrap{display:none;position:absolute;inset:0;z-index:8;background:#000;align-items:center;justify-content:center}
+.video-wrap.active{display:flex}.video-wrap video{width:100%;height:100%;object-fit:contain;background:#000}
+.video-label{position:absolute;top:16px;left:16px;background:#08090aba;color:#f2d68b;padding:9px 14px;border:1px solid #a78c4b;border-radius:9px;font-size:12px;letter-spacing:.12em;pointer-events:none}
+.stage.video-running .stage-inner{visibility:hidden}
+
+/* V6 — escudos ilustrativos e tabela cerimonial */
+.team-shield{width:54px;height:62px;object-fit:contain;filter:drop-shadow(0 3px 7px #0009);flex-shrink:0}
+.env-letter .team-shield{height:53px;width:49px;filter:drop-shadow(0 2px 3px #30201055)}
+.env-letter{gap:3px;padding:8px}.env-letter small{font-size:8px}.env-letter strong{font-size:clamp(12px,2.3vw,17px);max-width:100%;overflow-wrap:anywhere}
+/* V7 — placar da liga com moldura e luzes inspirados na referência */
+.final-board{display:none;position:relative;z-index:3;width:100%;max-width:880px;padding:12px 0;animation:boardAppear .9s ease both}
+.final-board.active{display:block}
+@keyframes boardAppear{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
+.league-frame{position:relative;isolation:isolate;padding:24px 25px 23px;border:3px solid #e4b965;border-radius:47px 47px 37px 37px / 28px 28px 35px 35px;background:linear-gradient(145deg,#232535 0%,#141725 47%,#23202b 100%);box-shadow:0 0 0 2px #574124, inset 0 0 0 2px #94744785,inset 0 -22px 45px #0008,0 18px 60px #000a,0 0 65px #cb923641;transform:perspective(1200px) rotateX(1deg)}
+.league-frame:before{content:"";position:absolute;z-index:-1;inset:8px;border:1px solid #f4d99d42;border-radius:38px 38px 30px 30px;pointer-events:none}
+.league-frame:after{content:"✦";position:absolute;right:24px;top:53px;font-size:70px;color:#b9995640;filter:blur(1px);pointer-events:none}
+.league-tab{position:relative;margin:-43px auto 20px;width:min(84%,380px);padding:9px 10px;border-radius:7px 7px 24px 24px;background:linear-gradient(180deg,#fff0b0,#ca9c4a 85%,#907039);color:#251b12;font:900 clamp(14px,2.6vw,23px) Georgia,serif;box-shadow:0 3px 0 #7d5e31,0 7px 18px #0009;letter-spacing:.065em;text-align:center}
+.league-kicker{color:#d0a957;letter-spacing:.25em;font-size:10px;margin:6px 0 8px}
+.league-title{font:900 clamp(18px,3.4vw,34px) Georgia,serif;letter-spacing:.04em;color:#f7dd9e;text-shadow:0 0 22px #d5a44866;margin:4px 0 5px}
+.league-description{font-size:11px;letter-spacing:.12em;color:#c3b8ac;margin:0 0 19px}
+.league-body{position:relative;display:flex;gap:18px;min-height:250px}
+.league-watermark{width:100px;flex:0 0 100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;opacity:.68;color:#d8b76c;border-right:1px solid #b9974736}
+.league-watermark svg{height:76px;width:76px;filter:drop-shadow(0 0 15px #d2a14750)}
+.league-watermark span{font:bold 10px Georgia,serif;letter-spacing:.16em}
+.league-table{flex:1;min-width:0;padding:0 2px}
+.board-scroll{max-height:310px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#ae864d #171827;background:linear-gradient(90deg,#111421a6,#22243177);border-top:2px solid #d6af69;border-bottom:1px solid #94774780;border-radius:5px}
+.board-header,.board-row{display:grid;grid-template-columns:33px minmax(90px,1fr) 42px minmax(120px,1.1fr);gap:8px;align-items:center;text-align:left;padding:8px 10px}
+.board-header{position:sticky;top:0;z-index:2;background:linear-gradient(90deg,#0e1221,#2a2935);color:#dfbf7c;font-size:10px;font-weight:900;letter-spacing:.09em}
+.board-row{min-height:47px;border-top:1px solid #c3a47730;background:#24243388;animation:boardEnter .65s cubic-bezier(.12,.86,.23,1) both}
+.board-row:nth-child(odd){background:#3b344377}.board-row .position{font:800 18px Georgia,serif;color:#f7d78f;border:1px solid #c89d5866;border-radius:50%;width:27px;height:27px;display:grid;place-items:center}
+.board-row .player-cell{font-weight:900;font-size:clamp(11px,1.65vw,14px);overflow-wrap:anywhere;color:#f4eddf}
+.board-row .team-cell{color:#efd9ab;font-weight:700;font-size:clamp(10px,1.5vw,13px);overflow-wrap:anywhere}
+.board-row .team-shield{height:31px;width:30px}
+.board-footer{opacity:0;color:#f7d78d;font:700 clamp(12px,2.3vw,18px) Georgia,serif;letter-spacing:.08em;margin:17px 0 0;transition:opacity 1.2s;text-shadow:0 0 15px #c4955055}.board-footer.show{opacity:1}
+@keyframes boardEnter{from{opacity:0;transform:translateX(-40px) scale(.96);filter:brightness(2)}to{opacity:1;transform:none;filter:none}}
+.stage.board-running .stage-inner > :not(#finalBoard){display:none!important}
+@media(max-width:650px){.stage.board-running .stage-inner{padding:18px 9px}.league-frame{padding:22px 11px 18px;border-radius:30px}.league-tab{margin-top:-36px}.league-watermark{display:none}.league-body{display:block;min-height:200px}.board-header,.board-row{grid-template-columns:24px minmax(66px,1fr) 28px minmax(75px,1.15fr);gap:5px;padding:7px 6px}.board-row .team-shield{height:27px;width:26px}.board-header{font-size:8px}.board-scroll{max-height:350px}.board-row .position{height:22px;width:22px;font-size:13px}.league-title{font-size:clamp(18px,5vw,26px)}}
+
+
+/* Apresentação Prime Cup: 8 segundos entre a abertura e o sorteio */
+.prime-finale{display:none;position:absolute;inset:0;z-index:10;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% 50%,#70451655 0%,#070a17 56%,#020309 100%)}
+.prime-finale.active{display:flex}
+.prime-finale::before,.prime-finale::after{content:"";position:absolute;inset:-35%;pointer-events:none;background:conic-gradient(from 20deg,transparent 0deg,#ffe19f35 9deg,transparent 20deg,transparent 70deg,#c7934b44 80deg,transparent 95deg,transparent 180deg,#f9d17938 190deg,transparent 205deg,transparent 360deg);animation:primeRays 8s linear both;filter:blur(8px)}
+.prime-finale::after{animation-direction:reverse;opacity:.5;transform:scale(.75)}
+.prime-finale .prime-logo{position:relative;z-index:2;width:min(98%,1100px);max-height:95%;object-fit:contain;animation:primeLogo 8s cubic-bezier(.2,.75,.25,1) both;will-change:transform,opacity}
+.prime-finale .prime-flare{position:absolute;z-index:3;top:52%;left:50%;width:9px;height:9px;border-radius:50%;background:white;box-shadow:0 0 38px 17px #ffe7a4,0 0 140px 70px #c58c36aa;transform:translate(-50%,-50%);animation:primeFlare 8s ease-in-out both;pointer-events:none}
+.prime-finale .prime-endtext{position:absolute;z-index:4;bottom:6%;left:4%;right:4%;text-align:center;color:#f9db96;font-size:clamp(10px,1.65vw,18px);font-weight:800;letter-spacing:.28em;text-shadow:0 2px 18px #000;animation:primeMessage 8s ease both}
+.prime-finale.finished .prime-logo,.prime-finale.finished::before,.prime-finale.finished::after,.prime-finale.finished .prime-flare,.prime-finale.finished .prime-endtext{animation-play-state:paused}
+.prime-finale.paused *,.prime-finale.paused::before,.prime-finale.paused::after{animation-play-state:paused!important}
+@keyframes primeRays{0%{transform:rotate(-25deg) scale(.7);opacity:0}25%{opacity:1}100%{transform:rotate(48deg) scale(1.4);opacity:.3}}
+@keyframes primeLogo{0%{transform:translate3d(0,50px,0) scale(.64);opacity:0}18%{opacity:1}30%{transform:translate3d(0,0,0) scale(1.06)}45%{transform:translate3d(0,0,0) scale(.98)}78%{transform:translate3d(0,0,0) scale(1);opacity:1}100%{transform:translate3d(0,-12px,0) scale(1.09);opacity:0}}
+@keyframes primeFlare{0%,12%{opacity:0;transform:translate(-50%,-50%) scale(.1)}25%{opacity:.94;transform:translate(-50%,-50%) scale(1.4)}40%,100%{opacity:0;transform:translate(-50%,-50%) scale(3)}}
+@keyframes primeMessage{0%,55%{opacity:0;transform:translateY(20px)}75%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-14px)}}
+@media(max-width:640px){.prime-finale .prime-logo{width:115%;max-width:none;min-height:220px}.prime-finale .prime-endtext{bottom:12%;font-size:10px;letter-spacing:.13em}}
+body.spectator .controls{position:fixed;z-index:40;right:8px;bottom:8px;opacity:.12;transition:opacity .2s}body.spectator .controls:hover{opacity:1}body.spectator .controls button:not(#spectatorMode){display:none}body.spectator .results,body.spectator .note,body.spectator .yt-box,body.spectator .disclaimer{display:none!important}body.spectator .top .tag{display:none}body.spectator .app{max-width:1400px}body.spectator .stage{min-height: min(82vh,800px)}body.spectator .stage-inner{min-height:min(82vh,800px)}
+
+/* V11: configuração de ensaio, escondida no modo espectador */
+.setup{margin:20px auto 0;max-width:1050px;border:1px solid #8b682e;border-radius:18px;padding:20px;background:#11131d;color:#eee5d4}
+.setup h2{margin:0 0 8px;color:#f3d58e;font-family:Georgia,serif}.setup p{color:#bdb6a7;font-size:14px}
+.setup-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:20px}.setup textarea,.setup input{background:#080a12;border:1px solid #8b7143;color:white;border-radius:10px;padding:10px;width:100%;font:inherit}.setup textarea{min-height:190px;resize:vertical}.setup label{display:block;margin:10px 0 7px;font-weight:700}.team-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:7px;max-height:268px;overflow:auto;border:1px solid #4e422d;padding:10px;border-radius:10px}.team-option{display:flex!important;align-items:center;gap:8px;margin:0!important;background:#20202b;border:1px solid #34313b;padding:6px;border-radius:8px;font-size:12px;cursor:pointer}.team-option img{width:30px;height:30px;object-fit:contain}.team-option input{width:auto;accent-color:#e7c274}.team-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.team-tools button{font-size:12px;padding:8px 12px}.setup-status{margin-top:12px;padding:10px;border-radius:9px;background:#272318;color:#f9dd94}.setup-status.error{background:#4a1b20;color:#ffc9c9}.spectator .setup{display:none!important}@media(max-width:650px){.setup-grid{grid-template-columns:1fr}.setup{padding:13px}.team-list{max-height:230px}}
+
+.stage{min-height:580px}.stage-inner{min-height:580px}.controls{display:none}.connection{max-width:880px;margin:18px auto;padding:16px;border:1px solid #86663d;border-radius:14px;background:#171825}.connection label{display:block;margin:8px 0;color:#eccd87}.connection input{width:100%;padding:13px;background:#0b0c15;color:#f7e5bd;border:1px solid #735836;border-radius:8px}.connection button{margin:9px 9px 0 0}.connection p{font-size:13px;color:#c4bcb3}#connectionState{margin-top:12px}body .top .tag{font-size:11px}@media(max-width:650px){.connection{margin:10px;padding:12px}}
+/* Entrada do espectador: gesto explícito necessário para desbloquear áudio. */
+.entry-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;overflow:auto;background:radial-gradient(ellipse at center,#172033f8 0%,#070911fa 74%);padding:18px}
+.entry-overlay.hidden{display:none}
+.entry-card{width:min(540px,100%);padding:26px 24px 28px;text-align:center;border:1px solid #9f7941;border-radius:22px;background:linear-gradient(145deg,#161a29,#0c0d17);box-shadow:0 18px 65px #000a}
+.entry-logo{display:block;width:min(240px,68%);height:auto;margin:auto auto 12px;filter:drop-shadow(0 7px 22px #e8a83c55)}
+.entry-card h2{color:#f2d28d;font:700 clamp(26px,6vw,37px) Georgia,serif;margin:10px 0}
+.entry-card p{color:#d6cbd0;line-height:1.55;font-size:15px}
+.entry-card button{background:#ebc878;color:#111219;font-size:16px;font-weight:800;padding:14px 22px;border-radius:12px;max-width:100%;margin:12px auto 8px;cursor:pointer}
+.entry-card button:disabled{opacity:.65}
+.entry-card .hint{color:#baa993;font-size:12px}
+.entry-status{min-height:20px;font-size:13px;color:#f3c881;margin-top:8px}
+.audio-status{font-size:13px;color:#e9cd83;min-height:18px;margin-top:9px}
+@media(max-width:650px){.entry-card{padding:20px 16px}.entry-card p{font-size:14px}}
+/* Otimizacao de desempenho mobile sem modificar a sequencia do show. */
+@media (max-width:650px){
+  .prime-finale::before,.prime-finale::after{filter:blur(9px)}
+  .prime-finale .prime-logo{will-change:transform,opacity}
+  .particles{pointer-events:none}
+}
+</style></head><body><div class="entry-overlay" id="entryOverlay" role="dialog" aria-label="Entrar na transmissão" aria-modal="true">
+<div class="entry-card"><img class="entry-logo" src="prime-cup.webp" alt="Prime Cup">
+<h2>PRIME CUP</h2><p>Entre na transmissão antes do sorteio para preparar a música neste aparelho. A entrada é silenciosa. Música e textos só começam quando o administrador iniciar o evento oficial.</p>
+<button type="button" id="enterTransmission">🔊 ENTRAR NA TRANSMISSÃO</button>
+<div id="entryStatus" class="entry-status" role="status"></div>
+<p class="hint">O navegador exige um toque para liberar o áudio. Em alguns celulares, pode ser necessário reativar o som depois.</p>
+</div></div><main class="app"><header class="top"><div class="brand">✦ ARENA RANK GUSTA ✦</div><div class="tag">ESPECTADOR • VERSÃO UNIFICADA</div></header><section class="stage" aria-live="polite"><div class="particles"></div><div id="videoWrap" class="video-wrap"><video id="introVideo" src="abertura.mp4" preload="auto" playsinline muted></video><div class="video-label">ARENA RANK GUSTA • ABERTURA OFICIAL</div></div><div id="outroWrap" class="video-wrap"><video id="outroVideo" src="encerramento.mp4" poster="encerramento-capa.jpg" preload="auto" playsinline muted></video><div class="video-label">ARENA RANK GUSTA • ENCERRAMENTO</div></div><div class="stage-inner"><div id="introPanel" class="intro-panel" aria-live="polite"><div class="intro-kicker">✦ ARENA RANK GUSTA APRESENTA ✦</div><h2 id="introHeadline">UMA NOITE HISTÓRICA</h2><p id="introText">O Sorteio Oficial está prestes a começar!</p><div class="intro-seconds" id="introCount">15 segundos para o espetáculo</div></div><div class="small">NOITE DO SORTEIO</div><h1 class="title">SORTEIO OFICIAL</h1><div id="subtitle" class="subtitle">UMA NOITE. UM DESTINO. UM TIME.</div><div id="crest" class="crest">🏆</div><div id="envelope" class="envelope-scene" aria-label="Envelope do sorteio"><div class="envelope"><div class="env-back"></div><div class="env-letter"><small>✦ TIME SORTEADO ✦</small><img id="letterShield" class="team-shield" alt="Escudo do time" style="display:none"><strong id="letterTeam">?</strong></div><div class="env-front"></div><div class="env-flap"></div><div class="env-seal">✦</div></div></div><div id="envCaption" class="env-caption"></div><div id="player" class="name">ARENA RANK GUSTA</div><div id="team" class="team"></div><div id="count" class="counter" aria-label="Tempo restante"></div><div class="rail"><div id="progress" class="progress"></div></div><div id="status" class="subtitle">PRONTO PARA COMEÇAR</div><div id="finalBoard" class="final-board"><div class="league-frame"><div class="league-tab">ARENA LEAGUE TABLE</div><div class="league-kicker">✦ ARENA RANK GUSTA ✦</div><h2 class="league-title">TABELA OFICIAL DO SORTEIO</h2><p class="league-description">OS TIMES FORAM DEFINIDOS</p><div class="league-body"><div class="league-watermark"><svg viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M50 4L90 18V62C90 83 74 98 50 109C26 98 10 83 10 62V18L50 4Z" stroke="currentColor" stroke-width="4"/><path d="M29 32H71V62C71 78 62 83 50 91C38 83 29 78 29 62V32Z" fill="currentColor" opacity=".22"/><path d="M40 34H60V18H73V39L63 49L59 65H41L37 49L27 39V18H40V34Z" fill="currentColor"/><path d="M37 70H63M33 76H67" stroke="currentColor" stroke-width="5"/></svg><span>ARENA RANK</span></div><div class="league-table"><div class="board-scroll"><div class="board-header"><span>Nº</span><span>JOGADOR</span><span>ESC.</span><span>TIME SORTEADO</span></div><div id="boardRows"></div></div></div></div><div id="boardFooter" class="board-footer">✦ BOA SORTE A TODOS OS PARTICIPANTES! ✦</div></div></div></div><div id="primeFinale" class="prime-finale" aria-label="Apresentação da Prime Cup"><img class="prime-logo" src="prime-cup.webp" alt="Logo oficial Prime Cup"><div class="prime-flare"></div><div class="prime-endtext">PRIME CUP • O SORTEIO VAI COMEÇAR</div></div></section><section class="connection"><h3>🏆 Prime Cup — Transmissão (versão unificada de teste)</h3><p>Prévia pública somente leitura. Esta página NÃO inicia eventos: somente o Admin poderá iniciar o sorteio. O tempo e as etapas só avançam de verdade quando o servidor atualiza o evento.</p><label for="eventId">ID do evento público de teste</label><input id="eventId" spellcheck="false" autocomplete="off"><button id="connect">Conectar ao evento</button><button id="activateAudio">🔊 Reativar música</button><div id="audioStatus" class="audio-status" role="status">Áudio ainda não liberado.</div><p><b>Etapa:</b> <span id="phaseName">—</span> • <b>Última consulta:</b> <span id="lastSync">—</span></p><p id="connectionState">Aguardando ID do evento criado no painel Admin. Antes do início, a apresentação permanece silenciosa.</p><p><b>Limite atual:</b> ensaios privados não são visíveis ao público. Abertura sincronizada pelo horário do servidor; revelações continuam dependendo do Admin e do banco.</p></section></main><script>"use strict";
+const $ = id => document.getElementById(id);
+const URL_SUPABASE = 'https://ocmiehulsxksbgzrdkzm.supabase.co';
+const PUBLIC_KEY = 'sb_publishable_CD4OOQWEdexVMYt6bTE_6g_sZDa2b8X';
+const DEFAULT_EVENT = new URLSearchParams(location.search).get('evento') || ''; // ID supplied by Admin
+const availableLogoSlugs = new Set(["athletico-paranaense","atletico-mineiro","bahia","botafogo","chapecoense","clube-do-remo","corinthians","coritiba","cruzeiro","flamengo","fluminense","gremio","internacional","mirassol","palmeiras","rb-bragantino","santos","sao-paulo","vasco-da-gama","vitoria","angers","as-monaco","auxerre","brest","le-havre-ac","le-mans","lille","lorient","lyon","marseille","nice","paris-fc","paris-saint-germain","rc-lens","rc-strasbourg-alsace","rennes","toulouse","troyes","augsburg","bayer-leverkusen","bayern-munchen","borussia-dortmund","borussia-monchengladbach","eintracht-frankfurt","freiburg","hamburger-sv","hoffenheim","koln","mainz-05","paderborn","rb-leipzig","schalke-04","sv-elversberg","union-berlin","vfb-stuttgart","werder-bremen","atalanta","bologna","cagliari","como-1907","fiorentina","frosinone","genoa","inter","juventus","lazio","lecce","milan","monza","napoli","parma","roma","sassuolo","torino","udinese","venezia","athletic-club","atletico-madrid","barcelona","celta","deportivo","deportivo-la-coruna","elche","espanyol","getafe","levante","malaga","osasuna","racing","rayo-vallecano","real-betis","real-madrid","real-sociedad","sevilla","valencia","villarreal","bournemouth","sunderland","crystal-palace","az-alkmaar","torreense","union-saint-gilloise","sparta-praha","olympiacos","sturm-graz","celtic","hapoel-beer-sheva","nec-nijmegen","levski","dinamo-zagreb","celje","ararat-armenia","jagiellonia","omonoia","viktoria-plzen","lillestrom","salzburg","besiktas","lech-poznan","benfica","ofi","ferencvaros","anderlecht","liverpool","manchester-city","arsenal","sporting-cp","aston-villa","fc-porto","manchester-united","club-brugge","psv","feyenoord","bodo-glimt","fenerbahce","shakhtar","galatasaray","slavia-praha","s-bratislava","aek-athens","lask","viking","sabah","brentford","brighton","chelsea","coventry-city","everton","fulham","hull-city","ipswich","leeds-united","newcastle","nottingham-forest","tottenham","belgium-national-team","france-national-team","italy-national-team","turkey-national-team","germany-national-team","greece-national-team","dutch-national-team","serbia-national-team","croatia-national-team","czech-republic-national-team","england-national-team","spain-national-team","denmark-national-team","norway-national-team","portuguese-football-federation","wales-national-team","north-macedonia-national-team","scotland-national-team","slovenia-national-team","switzerland-national-team","georgia-national-team","hungary-national-team","northern-ireland-national-team","ukraine-national-team","austria-national-team","republic-of-ireland-national-team","israel-national-team","kosovo-national-team","bosnia-and-herzegovina-national-team","poland-national-team","romania-national-team","sweden-national-team","albania-national-team","belarus-national-team","finland-national-team","san-marino-national-team","armenia-national-team","cyprus-national-team","latvia-national-team","montenegro-national-team","faroe-islands-national-team","kazakhstan-national-team","moldova-national-team","slovakia-national-team","bulgaria-national-team","estonia-national-team","iceland-national-team","luxembourg-national-team","andorra-national-team","gibraltar-national-team","malta-national-team","azerbaijan-national-team","liechtenstein-national-team","lithuania-national-team","mexico-national-team","south-africa-national-team","south-korea-national-team","canada-national-team","qatar-national-team","brazil-national-team","morocco-national-team","haiti-national-team","usa-national-team","paraguay-national-team","australia-national-team","curacao-national-team","cote-d-ivoire-national-team","ecuador-national-team","japan-national-team","tunisia-national-team","egypt-national-team","iran-national-team","new-zealand-national-team","cabo-verde-national-team","saudi-arabia-national-team","uruguay-national-team","senegal-national-team","iraq-national-team","argentina-national-team","algeria-national-team","jordan-national-team","congo-dr-national-team","uzbekistan-national-team","colombia-national-team","ghana-national-team","panama-national-team"]);
+const logoAliases = {"real madrid":"real-madrid","barcelona":"barcelona","bayern de munique":"bayern-munchen","bayern munich":"bayern-munchen","bayern munchen":"bayern-munchen","liverpool":"liverpool","arsenal":"arsenal","inter de milao":"inter","internazionale":"inter","inter":"inter","manchester city":"manchester-city","psg":"paris-saint-germain","paris saint germain":"paris-saint-germain","paris saint-germain":"paris-saint-germain","milan":"milan","ac milan":"milan","manchester united":"manchester-united","atletico de madrid":"atletico-madrid","borussia dortmund":"borussia-dortmund","tottenham":"tottenham","juventus":"juventus","chelsea":"chelsea"};
+const preferredNames = {'bayern-munchen':'Bayern de Munique','paris-saint-germain':'PSG','inter':'Inter de Milão','real-madrid':'Real Madrid','manchester-city':'Manchester City','manchester-united':'Manchester United','atletico-madrid':'Atlético de Madrid','brazil-national-team':'Brasil','argentina-national-team':'Argentina','england-national-team':'Inglaterra','france-national-team':'França','germany-national-team':'Alemanha','spain-national-team':'Espanha','italy-national-team':'Itália','portuguese-football-federation':'Portugal','dutch-national-team':'Holanda','usa-national-team':'Estados Unidos'};
+const soundtrack=new Audio('trilha.mp3');
+soundtrack.loop=true;
+soundtrack.preload='auto';
+const MUSIC_VOLUME=0.55;
+const MUSIC_PHASES=new Set(['intro','opening_video','prime_cup','suspense','reveal','final_table','closing_video']);
+// iOS Safari does not support setting media element volume reliably.
+// Use Web Audio gain only on iOS; regular volume on desktop avoids unnecessary
+// AudioContext suspension (the V14 silent-audio regression on some browsers).
+const needsWebAudio=/(iPad|iPhone|iPod)/.test(navigator.userAgent)||
+ (navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+let audioArmed=false, musicGraph=null, lastMusicPhase='', lastAudioProblem='';
+let currentAudioGain=0;
+function setMusicGain(level){
+  currentAudioGain=level;
+  if(musicGraph){
+    const node=musicGraph.gain.gain;
+    node.cancelScheduledValues(musicGraph.context.currentTime);
+    node.setValueAtTime(level,musicGraph.context.currentTime);
+  }else{
+    soundtrack.volume=level;
+  }
+}
+function soundReady(){
+  return audioArmed && !soundtrack.paused && !soundtrack.ended &&
+    (!musicGraph || musicGraph.context.state==='running');
+}
+function audioStatus(text,problem=false){
+  const label=$('audioStatus');
+  label.textContent=text;
+  label.style.color=problem?'#ffb3a1':'#e9cd83';
+  $('activateAudio').textContent=problem?'🔊 LIBERAR SOM AGORA':'🔊 Reativar música';
+}
+function syncAudioState(state){
+  const phase=state?.phase||'waiting';
+  const on=state?.event_status==='live' && MUSIC_PHASES.has(phase);
+  if(on && lastMusicPhase==='waiting' && (state.event_started_at || state.phase_started_at)){
+    const started=Date.parse(state.event_started_at || state.phase_started_at);
+    if(Number.isFinite(started)){
+      const seconds=Math.max(0,(Date.now()+clockOffsetMs-started)/1000);
+      if(Number.isFinite(soundtrack.duration)&&soundtrack.duration>0){
+        try{soundtrack.currentTime=seconds%soundtrack.duration;}catch(err){}
+      }else{soundtrack.addEventListener('loadedmetadata',()=>{
+        if(soundtrack.duration>0){try{soundtrack.currentTime=seconds%soundtrack.duration;}catch(err){}}
+      },{once:true});}
+    }
+  }
+  lastMusicPhase=on?phase:'waiting';
+  setMusicGain(on&&soundReady()?MUSIC_VOLUME:0);
+  if(!audioArmed){audioStatus('🔇 Áudio não liberado. Toque em ENTRAR NA TRANSMISSÃO.',on);return;}
+  if(!soundReady()){
+    audioStatus('⚠️ O navegador interrompeu o áudio. Toque em LIBERAR SOM AGORA.',true);
+    return;
+  }
+  audioStatus(on?'🎵 Música ativa — acompanhando o evento ao vivo.':'🔇 Aguardando o início: nenhum som será reproduzido.');
+}
+async function unlockAudio(){
+  // Called synchronously from a user gesture. The media starts silently;
+  // it only becomes audible when the server reports LIVE + INTRO.
+  setMusicGain(0);
+  try{
+    let resumePromise=Promise.resolve();
+    if(needsWebAudio){
+      if(!musicGraph){
+        const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+        if(!AudioContextClass)throw new Error('Web Audio indisponível neste navegador');
+        const context=new AudioContextClass();
+        const source=context.createMediaElementSource(soundtrack);
+        const gain=context.createGain();
+        gain.gain.value=0;
+        source.connect(gain);gain.connect(context.destination);
+        musicGraph={context,gain};
+      }
+      resumePromise=musicGraph.context.resume();
+    }
+    const playPromise=soundtrack.play();
+    await Promise.all([resumePromise,playPromise]);
+    if(!soundtrack.paused && (!musicGraph||musicGraph.context.state==='running')){
+      audioArmed=true;
+      $('entryOverlay').classList.add('hidden');
+      $('entryStatus').textContent='Áudio liberado. Aguardando a abertura oficial em silêncio.';
+      if(window.lastState)syncAudioState(window.lastState);
+      else audioStatus('🔇 Áudio pronto em silêncio. Aguardando o Admin.');
+      return true;
+    }
+    throw new Error('O navegador não iniciou a reprodução');
+  }catch(err){
+    audioArmed=false;
+    setMusicGain(0);
+    const msg='⚠️ Áudio bloqueado: '+(err?.message||err)+'. Toque novamente em ENTRAR ou LIBERAR SOM.';
+    $('entryStatus').textContent=msg;
+    audioStatus(msg,true);
+    return false;
+  }
+}
+soundtrack.addEventListener('error',()=>{
+  audioStatus('⚠️ Não foi possível carregar trilha.mp3. Confira se o ZIP foi extraído com todos os arquivos.',true);
+});
+
+const introVideo=$('introVideo'), outroVideo=$('outroVideo');
+introVideo.muted=true;outroVideo.muted=true;
+// Request video files early; browsers may still defer downloads on mobile/data saver.
+function warmVideoFiles(){
+  for(const media of [introVideo,outroVideo]){
+    media.preload='auto';
+    if(media.networkState===HTMLMediaElement.NETWORK_EMPTY){
+      try{media.load();}catch(_error){}
+    }
+  }
+}
+warmVideoFiles();
+let current=null,lastPhase='',lastEventId='',seen=[],requests=0,hasGesture=false,clockOffsetMs=0;
+// Playback should get its own uninterrupted eight seconds, even if the server status arrives late.
+const closingPlayback={startedAt:0,completed:false};
+const phases=['waiting','intro','opening_video','prime_cup','pre_suspense','suspense','reveal','final_table','closing_video','finished','paused'];
+function normalizeTeamName(value){return String(value).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function applyShield(img,team){const normalized=normalizeTeamName(team),slug=logoAliases[normalized.replace(/-/g,' ')]||Object.keys(preferredNames).find(k=>normalizeTeamName(preferredNames[k])===normalized)||normalized;const exists=availableLogoSlugs.has(slug);img.src=exists?'escudos/'+slug+'.png':'';img.style.visibility=exists?'visible':'hidden';img.alt=exists?'Escudo do '+team:'Escudo indisponível';}
+function safeNumber(n,d=0){return Number.isFinite(+n)?+n:d}
+async function readJson(path){const response=await fetch(URL_SUPABASE+'/rest/v1/'+path,{headers:{apikey:PUBLIC_KEY,Authorization:'Bearer '+PUBLIC_KEY,Accept:'application/json'},cache:'no-store'});if(!response.ok)throw new Error('HTTP '+response.status+' ao consultar '+path.split('?')[0]);const serverDate=response.headers.get('Date');if(serverDate){const ts=Date.parse(serverDate);if(Number.isFinite(ts))clockOffsetMs=ts-Date.now();}return response.json();}
+async function rpcSnapshot(eventId){const response=await fetch(URL_SUPABASE+'/rest/v1/rpc/arena_draw_snapshot',{method:'POST',headers:{apikey:PUBLIC_KEY,Authorization:'Bearer '+PUBLIC_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_event_id:eventId}),cache:'no-store'});if(!response.ok)throw new Error('Snapshot HTTP '+response.status);return response.json();}
+function message(msg,error=false){$('connectionState').textContent=msg;$('connectionState').style.color=error?'#fa9999':'#ecd18b';}
+function elapsed(state){const dt=Date.parse(state.phase_started_at||'');return Number.isFinite(dt)?Math.max(0,(Date.now()+clockOffsetMs-dt)/1000):0;}
+function updateVideo(video,visible,seconds){if(!visible){if(!video.paused)video.pause();return;}
+ const target=Math.max(0,seconds);if(Number.isFinite(video.duration)&&video.duration>0){const safe=Math.max(0,Math.min(video.duration-.12,target));if(Math.abs(video.currentTime-safe)>5)try{video.currentTime=safe;}catch{}}
+ if(video.paused&&target<(video.duration||Infinity)){video.play().catch(()=>message('O navegador bloqueou o vídeo. Toque em ENTRAR NA TRANSMISSÃO para liberar a reprodução.'));}}
+let lastBoardKey='';
+function rows(data,howMany){const host=$('boardRows');const key=howMany+'|'+data.map(x=>x.order+':'+x.player+':'+x.team).join('|');if(key===lastBoardKey)return;lastBoardKey=key;host.replaceChildren();data.slice(0,howMany).forEach((r,i)=>{const el=document.createElement('div');el.className='board-row';const pos=document.createElement('span');pos.className='position';pos.textContent=String(i+1).padStart(2,'0');const player=document.createElement('span');player.className='player-cell';player.textContent=r.player||'';const crest=document.createElement('img');crest.className='team-shield';applyShield(crest,r.team||'');const team=document.createElement('span');team.className='team-cell';team.textContent=r.team||'';el.append(pos,player,crest,team);host.append(el);});}
+function view(state,results,light=false){
+ if(light){
+   // Atualizar apenas o cronometro entre as consultas ao servidor.
+   // Nao reconstruir tabela, videos, musicas nem animacoes quatro vezes por segundo.
+   const phase=state.phase,seconds=elapsed(state);
+   if(phase==='intro')$('introCount').textContent=Math.max(0,Math.ceil(15-seconds))+' segundos';
+   if(phase==='suspense'){
+      $('count').textContent=Math.max(0,Math.ceil(10-seconds));
+      $('progress').style.width=Math.min(100,seconds*10)+'%';
+   }
+   return;
+ }
+ const phase=phases.includes(state.phase)?state.phase:'waiting',seconds=elapsed(state);
+ const previous=lastPhase;lastPhase=phase;
+ const intro=phase==='intro',movie=phase==='opening_video',prime=phase==='prime_cup',suspense=phase==='suspense',reveal=phase==='reveal',board=['final_table','finished'].includes(phase),outro=phase==='closing_video';
+ const active=suspense||reveal||phase==='pre_suspense';
+ $('introPanel').classList.toggle('active',intro);
+ $('videoWrap').classList.toggle('active',movie);$('outroWrap').classList.toggle('active',outro);$('primeFinale').classList.toggle('active',prime);
+ document.querySelector('.stage').classList.toggle('intro-running',intro);
+ document.querySelector('.stage').classList.toggle('video-running',movie);
+ document.querySelector('.stage').classList.toggle('board-running',board);
+ $('finalBoard').classList.toggle('active',board);
+ updateVideo(introVideo,movie,seconds);updateVideo(outroVideo,outro,seconds);
+ if(intro){const sections=[['UMA NOITE HISTÓRICA','Sejam bem-vindos ao Arena Rank Gusta!'],['UM TORNEIO INÉDITO','Preparem-se para grandes confrontos e muita emoção!'],['BOA SORTE A TODOS!','Cada participante terá seu destino revelado diante de todos.'],['QUE COMECE O ESPETÁCULO!','O Sorteio Oficial vai começar!']];const part=Math.min(3,Math.floor(seconds/4));$('introHeadline').textContent=sections[part][0];$('introText').textContent=sections[part][1];$('introCount').textContent=Math.max(0,Math.ceil(15-seconds))+' segundos';}
+ $('crest').style.display=active?'none':'grid';
+ $('envelope').className='envelope-scene'+(active?' active':'')+(reveal?' open':'');
+ const order=Math.max(1,safeNumber(state.current_reveal_order,1));
+ const shown=results.find(x=>safeNumber(x.order)===order);
+ // Never derive a hidden team from the pool: reveal names ONLY from the public snapshot.
+ $('letterTeam').textContent=reveal&&shown?shown.team:'?';
+ $('letterShield').style.display=reveal&&shown?'block':'none';
+ if(reveal&&shown)applyShield($('letterShield'),shown.team);
+ $('player').textContent=active?(reveal&&shown?shown.player:phase==='pre_suspense'?'PREPARANDO O SORTEIO':'PARTICIPANTE '+order):phase==='finished'?'SORTEIO FINALIZADO':'ARENA RANK GUSTA';
+ $('count').textContent=suspense?Math.max(0,Math.ceil(10-seconds)):'';
+ $('envCaption').textContent=suspense?'O ENVELOPE ESTÁ LACRADO...':reveal?(shown?'O DESTINO FOI REVELADO!':'AGUARDANDO LIBERAÇÃO DO SERVIDOR...'):phase==='pre_suspense'?'O PRIMEIRO ENVELOPE ESTÁ SENDO PREPARADO...':'';
+ $('status').textContent=suspense?'O DESTINO SERÁ REVELADO...':reveal?'TIME SORTEADO!':phase==='pre_suspense'?'AGUARDANDO O INÍCIO DO SUSPENSE':phase==='waiting'?'AGUARDANDO O INÍCIO OFICIAL':phase==='finished'?'RESULTADO OFICIAL':'PRIME CUP';
+ $('subtitle').textContent=active?'REVELAÇÃO '+order:'UMA NOITE. UM DESTINO. UM TIME.';
+ $('progress').style.width=suspense?Math.min(100,seconds*10)+'%':reveal?'100%':'0%';
+ $('team').textContent='';
+ if(board){let count=phase==='finished'?results.length:Math.min(results.length,Math.max(0,Math.floor(seconds*1.3)+1));rows(results,count);$('boardFooter').classList.toggle('show',count>=results.length);}
+ syncAudioState(state);
+ $('phaseName').textContent=({waiting:'Aguardando',intro:'Textos de abertura',opening_video:'Vídeo de abertura',prime_cup:'Prime Cup',pre_suspense:'Preparando envelopes',suspense:'Suspense',reveal:'Revelação',final_table:'Tabela final',closing_video:'Vídeo de encerramento',finished:'Sorteio concluído',paused:'Pausado'})[phase]||phase;
+ $('lastSync').textContent=new Date().toLocaleTimeString('pt-BR');
+ if(previous!==phase&&phase==='reveal'&&!shown)message('Revelação aguardando resultado público (sem antecipação).');
+}
+async function poll(){if(!current||requests)return;requests++;try{
+ const id=current;
+ const [arr,snapshot]=await Promise.all([readJson('arena_draw_live_state?event_id=eq.'+encodeURIComponent(id)+'&select=event_id,phase,current_reveal_order,phase_started_at,phase_duration_seconds,updated_at'),rpcSnapshot(id)]);
+ if(id!==current)return;
+ if(!arr.length||!snapshot){message('Evento não está visível publicamente. Ensaios privados não aparecem neste monitor.',true);return;}
+ const state=arr[0],results=Array.isArray(snapshot.revealed)?snapshot.revealed:[];
+ // Somente o status LIVE registrado no evento pelo Admin inicia o espetáculo.
+ // Uma fase intro de teste com evento SCHEDULED não inicia a música nem os textos.
+ const eventStatus=snapshot.status;
+ let displayPhase=eventStatus==='finished'?'finished':eventStatus==='live'?state.phase:'waiting';
+ let phaseStart=state.phase_started_at;
+ // Fases iniciais calculadas a partir de um unico horario de inicio no servidor.
+ // O espectador nao espera a aba Admin trocar de intro -> video -> logo.
+ // NUNCA deduzimos suspense/revelacao: elas dependem do servidor e do RLS.
+ if(eventStatus==='live' && ['intro','opening_video','prime_cup'].includes(state.phase) && snapshot.started_at){
+   const start=Date.parse(snapshot.started_at);
+   const age=(Date.now()+clockOffsetMs-start)/1000;
+   if(Number.isFinite(age) && age>=0){
+     if(age<15){displayPhase='intro';phaseStart=new Date(start).toISOString();}
+     else if(age<86.37){displayPhase='opening_video';phaseStart=new Date(start+15000).toISOString();}
+     else if(age<94.37){displayPhase='prime_cup';phaseStart=new Date(start+86370).toISOString();}
+     else {displayPhase='pre_suspense';phaseStart=new Date(start+94370).toISOString();}
+   }
+ }
+ // The ending video is local playback, not a screenshot/poster. Give it its
+ // entire 8s once it is first observed, even if the next server poll says FINISHED.
+ if(eventStatus==='live' && state.phase==='closing_video' && !closingPlayback.completed){
+   if(!closingPlayback.startedAt){
+     closingPlayback.startedAt=Date.now();
+     try{outroVideo.pause();outroVideo.currentTime=0;}catch(_){}
+   }
+ }
+ if(closingPlayback.startedAt && !closingPlayback.completed){
+   if(Date.now()-closingPlayback.startedAt<8500){
+     displayPhase='closing_video';
+     phaseStart=new Date(closingPlayback.startedAt+clockOffsetMs).toISOString();
+   }else{
+     closingPlayback.completed=true;
+     try{outroVideo.pause();}catch(_){}
+   }
+ }
+ const publicState={...state, phase:displayPhase, phase_started_at:phaseStart, event_status:(displayPhase==='closing_video'&&eventStatus==='finished'?'live':eventStatus), event_started_at:snapshot.started_at};
+ seen=results;view(publicState,results);
+ message(eventStatus==='live'?'Evento ao vivo • acompanhando o Supabase':
+         eventStatus==='finished'?'Evento concluído • resultados oficiais':
+         'Aguardando o botão INICIAR SORTEIO no painel Admin • sem som');
+ }catch(e){message('Erro de leitura: '+e.message,true)}finally{requests--;}}
+$('connect').onclick=()=>{const id=$('eventId').value.trim();if(!/^[0-9a-f]{8}-[0-9a-f-]{27,36}$/i.test(id)){message('Cole um UUID válido.',true);return;}current=id;poll();};
+$('enterTransmission').onclick=()=>{
+  const id=$('eventId').value.trim();
+  if(!/^[0-9a-f]{8}-[0-9a-f-]{27,36}$/i.test(id)){
+    $('entryStatus').textContent='Configure um ID de evento válido.';return;
+  }
+  // Iniciamos o áudio IMEDIATAMENTE ao toque; o Supabase é consultado depois.
+  warmVideoFiles();
+  const unlocked=unlockAudio();
+  current=id;
+  poll();
+  unlocked.then(ok=>{if(ok && window.lastState)syncAudioState(window.lastState);});
+};
+$('activateAudio').onclick=()=>{
+  unlockAudio().then(ok=>{if(ok && current)poll();});
+};
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&audioArmed&&soundtrack.paused){
+    audioStatus('⚠️ O navegador interrompeu a música. Toque em LIBERAR SOM AGORA.',true);
+  }
+});
+$('eventId').value=DEFAULT_EVENT;
+setInterval(poll,2000);
+// Smooth local transitions for the first three NON-SECRET phases between API polls.
+// Only an authenticated LIVE snapshot authorizes this timeline; suspense and reveals
+// always come from Supabase. No local calculation can unlock a hidden team.
+function advanceOpeningLocally(){
+  const state=window.lastState;
+  if(!current||!state||state.event_status!=='live'||
+     !['intro','opening_video','prime_cup','pre_suspense'].includes(state.phase)||
+     !state.event_started_at)return;
+  const anchor=Date.parse(state.event_started_at);
+  if(!Number.isFinite(anchor))return;
+  const age=(Date.now()+clockOffsetMs-anchor)/1000;
+  if(age<0)return;
+  let nextPhase, nextAt;
+  if(age<15){nextPhase='intro';nextAt=anchor;}
+  else if(age<86.37){nextPhase='opening_video';nextAt=anchor+15000;}
+  else if(age<94.37){nextPhase='prime_cup';nextAt=anchor+86370;}
+  else {nextPhase='pre_suspense';nextAt=anchor+94370;}
+  if(nextPhase!==state.phase){
+    const projected={...state,phase:nextPhase,phase_started_at:new Date(nextAt).toISOString()};
+    view(projected,seen);
+  }
+}
+setInterval(advanceOpeningLocally,120);
+// If the final video has completed, do not leave its last frame frozen while
+// waiting for the server's next state message. This never unlocks a new team.
+setInterval(()=>{
+  if(!closingPlayback.startedAt||closingPlayback.completed||!window.lastState)return;
+  if(Date.now()-closingPlayback.startedAt>=8500){
+    closingPlayback.completed=true;
+    if(window.lastState.event_status==='finished'){
+      view({...window.lastState,phase:'finished'},seen);
+    }
+  }
+},200);
+setInterval(()=>{if(document.visibilityState==='visible'&&current&&!requests&&lastPhase){ // countdown only, no DOM rebuilding
+ const state=window.lastState;if(state)view(state,seen,true);
+}},250);
+// retain the last non-secret state for smooth countdown
+const oldView=view;
+view=function(state,results,light=false){if(!light)window.lastState=state;oldView(state,results,light)};
+</script></body></html>
