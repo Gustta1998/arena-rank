@@ -25,13 +25,12 @@ jobs:
           if not m:
               raise RuntimeError('Crest manifest missing from approved presentation')
           names=ast.literal_eval(m.group(1))
-          files=['trilha.mp3','abertura.mp4','encerramento.mp4','prime-cup.webp','encerramento-capa.jpg']+['escudos/'+n+'.png' for n in names]
+          files=['trilha.mp3','abertura.mp4','encerramento.mp4','prime-cup.png']+['escudos/'+n+'.png' for n in names]
           checks={
             'trilha.mp3':'193d0857097792f26fdd74f04114b14f51a03b159eadd862433597ae952091c0',
             'abertura.mp4':'0dbbc360b3c72072a8647716ac71a67fcaaecb3b267e9551814484bf9099daba',
             'encerramento.mp4':'902541280da8a3f82200d05ac42c3ec43097b13d460c7c76c19fe4bdc8ffb4fe',
-            'prime-cup.webp':'11120f38dcfb761b3e85f81eaaf68a36e0ec8c9c61bb7127df45e27d02049c21',
-            'encerramento-capa.jpg':'b0bf90eb3d81fc58fdb326b5d26cdbd5f340ec10bb2ce58c26b6d34a8f32932e',
+            'prime-cup.png':'1dc8541227579a0580d060bcab46d96021ac73a257241faaa44382db1e7c6970',
           }
           def download(path):
               dest=root/path
@@ -58,6 +57,8 @@ jobs:
           if errs:
               print('\n'.join(errs[:30]))
               raise SystemExit('Missing assets; repository unchanged')
+          import subprocess
+          subprocess.run(['ffmpeg','-y','-ss','3','-i',str(root/'encerramento.mp4'),'-frames:v','1',str(root/'encerramento-capa.jpg')],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
           PY
       - name: Commit assets to integration branch only
         run: |
