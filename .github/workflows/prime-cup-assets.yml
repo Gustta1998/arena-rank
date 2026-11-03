@@ -1,0 +1,68 @@
+name: Stage Prime Cup assets
+on:
+  push:
+    branches: [feature/prime-cup-integracao]
+    paths:
+      - '.github/workflows/prime-cup-assets.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  copy-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/prime-cup-integracao
+      - name: Retrieve Prime Cup media and team crests from approved preview
+        run: |
+          python3 - <<'PY'
+          import ast, pathlib, re, urllib.request, concurrent.futures, time, hashlib
+          base='https://joyful-daifuku-216de4.netlify.app/'
+          root=pathlib.Path('prime-cup')
+          html=(root/'index.html').read_text()
+          m=re.search(r'const availableLogoSlugs = new Set\((\[[^;]+?\])\)',html)
+          if not m:
+              raise RuntimeError('Crest manifest missing from approved presentation')
+          names=ast.literal_eval(m.group(1))
+          files=['trilha.mp3','abertura.mp4','encerramento.mp4','prime-cup.png']+['escudos/'+n+'.png' for n in names]
+          checks={
+            'trilha.mp3':'193d0857097792f26fdd74f04114b14f51a03b159eadd862433597ae952091c0',
+            'abertura.mp4':'0dbbc360b3c72072a8647716ac71a67fcaaecb3b267e9551814484bf9099daba',
+            'encerramento.mp4':'902541280da8a3f82200d05ac42c3ec43097b13d460c7c76c19fe4bdc8ffb4fe',
+            'prime-cup.png':'1dc8541227579a0580d060bcab46d96021ac73a257241faaa44382db1e7c6970',
+          }
+          def download(path):
+              dest=root/path
+              dest.parent.mkdir(parents=True,exist_ok=True)
+              for attempt in range(3):
+                  try:
+                      req=urllib.request.Request(base+path,headers={'User-Agent':'PrimeCupAssetImport/1.0'})
+                      with urllib.request.urlopen(req,timeout=25) as response:
+                          body=response.read()
+                      if len(body)<50:
+                          raise ValueError('Empty asset: '+path)
+                      if path in checks and hashlib.sha256(body).hexdigest()!=checks[path]:
+                          raise ValueError('Asset checksum mismatch: '+path)
+                      if path.endswith('.png') and not body.startswith(b'\x89PNG\r\n\x1a\n'):
+                          raise ValueError('Invalid PNG: '+path)
+                      dest.write_bytes(body)
+                      return None
+                  except Exception as exc:
+                      if attempt==2:return path+': '+str(exc)
+                      time.sleep(2)
+          with concurrent.futures.ThreadPoolExecutor(max_workers=12) as executor:
+              errs=[r for r in executor.map(download,files) if r]
+          print('Downloaded',len(files)-len(errs),'/',len(files),'assets')
+          if errs:
+              print('\n'.join(errs[:30]))
+              raise SystemExit('Missing assets; repository unchanged')
+          PY
+      - name: Commit assets to integration branch only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add prime-cup/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "assets: import verified Prime Cup media and crests"
+          git push origin HEAD:feature/prime-cup-integracao
